@@ -1,0 +1,4 @@
+testGame
+C:\test\mod_dir
+C:\test\game_dir
+false,nsfw
