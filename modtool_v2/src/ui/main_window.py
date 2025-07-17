@@ -9,23 +9,48 @@ class MainWindow(QMainWindow):
         self.mod_manager = mod_manager
         self.setWindowTitle(f"{self.config.game_name} mod工具v2")
         self.resize(900, 600)
-        self.init_menu()
         self.mod_list_view = ModListView(self.mod_manager)
         self.setCentralWidget(self.mod_list_view)
+        self.init_menu()
 
     def init_menu(self):
         menubar = self.menuBar()
-        refresh_action = QAction('刷新', self)
-        refresh_action.triggered.connect(self.on_refresh)
-        menubar.addAction(refresh_action)
+
+        #文件菜单
+        file_menu = menubar.addMenu('文件')
 
         save_action = QAction('保存清单', self)
         save_action.triggered.connect(self.on_save)
-        menubar.addAction(save_action)
+        file_menu.addAction(save_action)
 
         load_action = QAction('加载清单', self)
         load_action.triggered.connect(self.on_load)
-        menubar.addAction(load_action)
+        file_menu.addAction(load_action)
+
+        #条目菜单
+        item_menu = menubar.addMenu('条目')
+
+        refresh_action = QAction('刷新', self)
+        refresh_action.triggered.connect(self.on_refresh)
+        item_menu.addAction(refresh_action)
+
+        unselect_all_action = QAction('取消选中', self)
+        unselect_all_action.triggered.connect(self.mod_list_view.unselect_all_mods)
+        item_menu.addAction(unselect_all_action)
+
+        delete_selected_action = QAction('删除选中', self)
+        delete_selected_action.triggered.connect(self.mod_list_view.delete_selected_mods)
+        item_menu.addAction(delete_selected_action)
+
+        display_activated_action = QAction('显示已激活', self, checkable=True)
+        display_activated_action.setChecked(self.mod_list_view._show_activated_only)
+        display_activated_action.triggered.connect(self.mod_list_view.toggle_display_activated)
+        item_menu.addAction(display_activated_action)
+
+        display_all_tags_action = QAction('显示全部标签', self, checkable=True)
+        display_all_tags_action.setChecked(self.mod_list_view._show_all_tags)
+        display_all_tags_action.triggered.connect(self.mod_list_view.toggle_display_all_tags)
+        item_menu.addAction(display_all_tags_action)
 
     def on_refresh(self):
         self.mod_manager.scan_mods()
