@@ -1,4 +1,4 @@
-testGame
-C:\test\mod_dir
-C:\test\game_dir
+StellarBlade
+C:\games\stellarBlade mods
+C:\games\steam\steamapps\common\StellarBlade\SB\Content\Paks\~Mods
 false,nsfw
